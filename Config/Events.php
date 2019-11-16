@@ -4,6 +4,12 @@ use BasicApp\Helpers\Url;
 use BasicApp\Config\Controllers\Admin\Config;
 use BasicApp\Mailer\Forms\MailerConfigForm;
 use BasicApp\Admin\AdminEvents;
+use BasicApp\System\SystemEvents;
+
+SystemEvents::onPreSystem(function() {
+
+    helper(['parse_recipients_string']);
+});
 
 AdminEvents::onOptionsMenu(function($menu) 
 {
