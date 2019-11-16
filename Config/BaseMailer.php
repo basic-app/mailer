@@ -32,10 +32,8 @@ abstract class BaseMailer extends \BasicApp\Config\BaseConfig
 
     public $smtp_timeout = 5;
 
-    public function createEmail($config = [], $to = false)
+    public function emailConfig($config)
     {
-        $email = Services::email();
-
         if ($this->useragent)
         {
             $config['userAgent'] = $this->useragent;
@@ -43,6 +41,8 @@ abstract class BaseMailer extends \BasicApp\Config\BaseConfig
 
         if ($this->smtp_enabled)
         {
+            $config['protocol'] = 'smtp';
+
             $config['SMTPHost'] = $this->smtp_host;
 
             $config['SMTPUser'] = $this->smtp_username;
@@ -64,11 +64,32 @@ abstract class BaseMailer extends \BasicApp\Config\BaseConfig
             }
         }
 
+        return $config;
+    }
+
+    public function createEmail($config = [])
+    {
+        $email = Services::email();
+
+        $config = $this->emailConfig($config);
+
         $email->initialize($config);
 
         $email->setFrom($this->from_email, $this->from_name);
 
         return $email;
+    }    
+
+    public function sendEmail($email, array $options = [], & $error = null)
+    {
+        $return = $email->send();
+
+        if (!$return)
+        {
+            $error = $email->printDebugger([]);
+        }
+
+        return $return;
     }
 
 }
