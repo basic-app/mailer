@@ -10,6 +10,8 @@ abstract class BaseMailer extends \BasicApp\Config\BaseConfig
 
     protected $modelClass = MailerConfigForm::class;
 
+    public $disabled;
+
     public $useragent = 'CodeIgniter';
 
     public $from_name;
@@ -82,6 +84,13 @@ abstract class BaseMailer extends \BasicApp\Config\BaseConfig
 
     public function sendEmail($email, array $options = [], & $error = null)
     {
+        if ($this->disabled)
+        {
+            $error = 'Mailer disabled. Contact support.';
+
+            return false;
+        }
+
         $return = $email->send();
 
         if (!$return)
