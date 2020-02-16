@@ -17,7 +17,7 @@ AdminEvents::onOptionsMenu(function($menu)
     {
         $menu->items[MailerConfigForm::class] = [
             'label' => t('admin.menu', 'Mailer'),
-            'icon' => 'fa fa-envelope',
+            'icon' => 'fa fa-fw fa-envelope',
             'url' => Url::createUrl('admin/config', ['class' => MailerConfigForm::class])
         ];
     }
