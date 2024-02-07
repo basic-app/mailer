@@ -5,9 +5,10 @@ use BasicApp\Config\Controllers\Admin\Config as ConfigController;
 use BasicApp\Mailer\Forms\MailerConfigForm;
 use BasicApp\Admin\AdminEvents;
 use BasicApp\System\SystemEvents;
+use CodeIgniter\Events\Events;
 
-SystemEvents::onPreSystem(function() {
-
+Events::on('pre_system', function()
+{
     helper(['parse_recipients_string']);
 });
 
